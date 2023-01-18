@@ -1,0 +1,438 @@
+label,
+input[type="radio"] {
+  float: left;
+}
+
+li {
+  margin: 0 !important;
+}
+
+.error {
+  border: solid;
+  border-color: red;
+  border-width: 5px;
+}
+
+.form-question {
+  height: 100px;
+}
+
+.grey-btn {
+  background-color: lightgrey;
+  border-color: lightgrey;
+  color: black;
+}
+
+.grey-btn:hover {
+  background-color: #34baeb !important;
+  border-color: #34baeb !important;
+  font-weight: bold !important;
+}
+
+.btn-check:checked + .grey-btn {
+  background-color: #34baeb !important;
+  border-color: #34baeb !important;
+  font-weight: bold !important;
+}
+
+.hide {
+  display: none;
+}
+
+.info-message {
+  border: solid;
+  border-color: #34baeb;
+  font-size: 14px !important;
+  line-height: 20px;
+  border-width: 2px;
+  padding: 10px;
+}
+
+.scholarship-btn {
+  width: 85% !important;
+  padding: 15px !important;
+  background-color: #c99700 !important;
+  color: #0c2340 !important;
+  font-size: large !important;
+}
+
+.scholarship-btn:hover {
+  border: solid;
+  border-color: white;
+}
+
+.scholarship-btn::after {
+  background-color: #0c2340 !important;
+  font-size: medium !important;
+  padding-top: 1em !important;
+  width: 35px !important;
+}
+
+.scholarship-policy {
+  font-size: medium !important;
+  line-height: 20px !important;
+}
+
+/* ICON BOX STUFF STARTS HERE */
+.icon-modal-container-remove {
+  display: grid;
+  grid-template-columns: 12fr 12fr;
+  grid-gap: 2em;
+  grid-row-gap: 4em;
+  font-size: 1.325em;
+  margin-top: 80px;
+}
+.icon-modal-container-remove[data-value="3"] {
+  grid-template-columns: 12fr 12fr 12fr;
+}
+.icon-modal-container-remove[data-value="4"] {
+  grid-template-columns: 12fr 12fr 12fr 12fr;
+}
+.icon-modal {
+  background-color: #0c2340;
+  /*text-align: center;*/
+  text-align: left;
+  width: 85%;
+  color: #fff;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  font-size: 1.25em;
+  font-weight: inherit;
+  margin: 0;
+  padding: 30px 40px 30px 110px;
+  /*padding: 80px 40px 50px 40px;*/
+  line-height: inherit;
+  position: relative;
+  box-shadow: none;
+  border-radius: 0;
+  display: block;
+  text-decoration: none !important;
+}
+
+.icon-modal:after {
+  content: "+";
+  color: #c99700;
+  position: absolute;
+  /*left: 50%;
+    bottom: 0;
+    transform: translate(-50%, -50%);*/
+  right: 15px;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+.icon-modal.no-modal:after,
+.top .icon-modal.no-modal:after {
+  content: "";
+}
+
+.icon-modal .image {
+  font-size: 1em;
+  line-height: 40px;
+  font-weight: 400;
+  color: #fff;
+  background: #c99700;
+  background-color: #0c2340;
+  border: 4px solid #fff;
+  text-align: center;
+  /* height: 120px;
+    width: 120px; */
+  height: 90px;
+  width: 90px;
+  border-radius: 100%;
+  display: block;
+  position: absolute;
+  left: -24px;
+  top: 50%;
+  transform: translate(0, -50%);
+  padding: 20px;
+  border-radius: 100%;
+  overflow: hidden;
+}
+.left .icon-modal .title h3 {
+  color: #fff;
+  font-weight: 400;
+  margin: 0;
+  text-transform: none;
+  font-size: 1.625rem;
+}
+.left .icon-modal .title h4 {
+  margin-top: 0.5em;
+}
+.left.icon-modal-container-remove[data-value="3"] .icon-modal .image {
+  left: -35px;
+}
+
+.left.icon-modal-container-remove[data-value="3"] .icon-modal {
+  padding: 15px 40px 15px 100px;
+  font-size: 1.125em;
+}
+
+.icon-modal-container-remove.no-icon {
+  margin: 100px 0 60px 0 !important;
+}
+.no-icon .icon-modal {
+  padding: 80px 40px 50px;
+  text-align: center;
+  transition: all 0.25s;
+  border: 10px solid #8b8b8b;
+  padding: 40px 40px;
+  background: url(img/diamond-background-grid-blue.svg) #0c2340;
+  background-size: 900px;
+  background-position: bottom left;
+  background-repeat: no-repeat;
+}
+.no-icon .icon-modal .title h3 {
+  color: #c99700;
+  /*font-size: 2.5rem;
+            font-weight: 700;
+            margin: 10px 0 20px 0;*/
+  font-family: psfournier-std, serif;
+  color: #69b3e7;
+  font-size: 6.875rem;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.3rem;
+  line-height: 1.25em;
+}
+
+.no-icon .icon-modal .title h4 {
+  color: #fff;
+  margin: 0;
+  font-size: 1.575rem;
+  line-height: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.no-icon .icon-modal .image {
+}
+.no-icon .icon-modal:after {
+}
+.no-icon .icon-modal.no-modal:after {
+}
+.no-icon .icon-modal:before {
+}
+.no-icon .icon-modal.no-modal:hover {
+  transform: scale(1.125);
+}
+.no-icon .icon-modal.no-modal:hover:after {
+}
+/* END NO-ICON */
+.icon-modal .image img {
+  width: 100%;
+  height: 100%;
+}
+.icon-modal.off-canvas-toggle:after {
+  transition: all 0.25s;
+}
+.icon-modal.off-canvas-toggle:hover:after {
+  color: #fff;
+  transform: scale(1.5) translate(-33%, -25%);
+}
+
+.icon-modal-container-remove.top {
+  margin: 100px 0 60px 0 !important;
+}
+.top .icon-modal {
+  padding: 80px 40px 50px;
+  text-align: center;
+  transition: all 0.25s;
+}
+.top .icon-modal .title h3 {
+  color: #c99700;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 10px 0 20px 0;
+}
+
+.top .icon-modal .title h4 {
+  color: #fff;
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.75rem;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+.top .icon-modal .image {
+  font-size: 1em;
+  line-height: 40px;
+  font-weight: 400;
+  color: #fff;
+  background: #c99700;
+  background-color: #0c2340;
+  border: 4px solid #fff;
+  text-align: center;
+  /* height: 120px;
+        width: 120px; */
+  height: 100px;
+  width: 100px;
+  border-radius: 100%;
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+}
+.top .icon-modal:after {
+  content: "+";
+  color: #c99700;
+  position: absolute;
+  left: 50%;
+  top: auto;
+  bottom: 0;
+  transform: translate(-50%, -50%);
+}
+.top .icon-modal.no-modal:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  height: 12px;
+  width: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  background-color: #69b3e7;
+  -webkit-transition: all 0.25s;
+  -o-transition: all 0.25s;
+  transition: all 0.25s;
+  transform: none;
+}
+.top .icon-modal:before {
+  border: 1px solid #fff;
+  content: "";
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  left: 20px;
+  bottom: 20px;
+}
+.top .icon-modal.no-modal:hover {
+  transform: scale(1.125);
+}
+.top .icon-modal.no-modal:hover:after {
+  opacity: 1;
+  width: 100%;
+}
+
+/*====MODAL Window===*/ /* Unopened lightbox */
+.off-canvas-toggle,
+.modal-toggle {
+  /*float: left;
+    padding: 0 15px;*/
+}
+.close.off-canvas-toggle {
+  position: absolute;
+  right: 30px;
+  top: 30px;
+  display: block;
+  background: #fff;
+  background: rgba(255, 255, 255, 0.2);
+  width: 30px;
+  height: 30px;
+  text-align: center;
+}
+.off-canvas {
+  width: 300px;
+  width: 100vw;
+  position: fixed;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  left: 0;
+  top: 0;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  /*background: #c99700;*/
+  transform: translateX(-100%);
+  transition: 0.4s ease-in-out;
+  z-index: 1060;
+}
+.modal-active .off-canvas {
+  transform: translateX(0);
+}
+
+.list-group {
+  padding: 20px;
+}
+.off-canvas-overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(12, 35, 64, 0.85);
+  z-index: 1050;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.4s ease-in-out;
+}
+.off-canvas-active .off-canvas-overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+.box-info {
+  padding: 3em;
+  margin: 15px;
+  max-width: 900px;
+  background: #558ac4;
+  color: #0c2340;
+  position: relative;
+}
+.box-content p {
+  color: #fff;
+  font-size: 1.1em;
+}
+.box-info p {
+  color: #0c2340;
+}
+.box-info h3 {
+  font-weight: 700;
+  font-size: 1.875em;
+  color: #0c2340;
+  margin: 1em 0 0.75em;
+}
+.box-info ul {
+  margin: 0 0 1em;
+}
+
+.box-info ul li {
+  font-family: "new-atten", sans-serif;
+  font-size: 1.325em;
+  margin: 0 0 1em;
+}
+
+@media screen and (max-width: 901px) {
+  .box-info {
+    padding: 1em;
+  }
+  .box-info h3 {
+    font-size: 1.5em;
+  }
+  .box-info p {
+    font-size: 1.2em;
+    line-height: 1.325em;
+  }
+
+  .icon-modal-container-remove {
+    display: block;
+  }
+  .icon-modal {
+    font-size: 1.1em;
+    margin: 4em 0;
+  }
+  .icon-modal-container-remove.left .icon-modal {
+    margin: 1.5em 0;
+    padding: 20px 20px 20px 80px;
+  }
+
+  .icon-modal-container-remove.left .icon-modal .image {
+    height: 90px;
+    width: 90px;
+  }
+}
+
+/* ICON BOX STUFF ENDS HERE */
