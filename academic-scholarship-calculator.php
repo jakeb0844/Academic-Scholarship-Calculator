@@ -175,7 +175,6 @@
                 <div class="form-question" id="freshman-gpa-scores" style="margin-top:2rem;padding-bottom:2rem">
                     <span class="fw-bold">My GPA is*</span>
                     <select class="form-select" aria-label="GPA Scores">
-                        <option value="select" disabled selected>Select Your GPA*</option>
                         <option value="Below 3.00">Below 3.00</option>
                         <option value="3.00-3.49">3.00-3.49</option>
                         <option value="3.50-3.74">3.50-3.74</option>
@@ -187,7 +186,6 @@
                 <div class="form-question hide" id="transfer-gpa-scores" style="padding-bottom:2rem">
                     <span class="fw-bold">My GPA is*</span>
                     <select class="form-select" aria-label="GPA Scores">
-                        <option value="select" disabled selected>Select Your GPA*</option>
                         <option value="2.00-2.49">2.00-2.49</option>
                         <option value="2.50-2.99">2.50-2.99</option>
                         <option value="3.00-3.49">3.00-3.49</option>
@@ -197,8 +195,8 @@
                 </div>
                 <div class="clearfix"></div>
 
-                <div id="error-message" class="hide" style="width:50%;height:auto;background-color:red;">
-                    <span>Please fix the issues</span>
+                <div id="error-message" class="hide" style="width:fit-content;background-color:red;padding:.5rem;">
+                    <p style="margin:0;">Please fix the highlighted issues</p>
                 </div>
 
             </form>
@@ -248,6 +246,3 @@
         </div>
     </div>
 </div>
-<button onclick="location.reload(true)" class="btn btn-primary">REFRESH PAGE</button>
-<button onclick="ShowOptionOne()">Option 1</button>
-<button onclick="ShowOptionTwo()">Option 2</button>

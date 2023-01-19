@@ -10,7 +10,8 @@ li {
 .error {
   border: solid;
   border-color: red;
-  border-width: 5px;
+  border-width: 3px;
+  margin-top:1rem;
 }
 
 .form-question {
