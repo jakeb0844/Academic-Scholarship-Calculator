@@ -300,7 +300,6 @@ function CheckForTransferCompeition(GPA) {
   console.log("Oncampus", OnCampus);
   if (
     Classification == "transfer" &&
-    OnCampus == "no" &&
     GPA != "2.00-2.49" &&
     GPA != "2.50-2.99"
   ) {
