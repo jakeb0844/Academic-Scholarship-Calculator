@@ -5,7 +5,8 @@ let Scholarship,
   TestType,
   Visiting,
   Classification,
-  PTK;
+  PTK,
+  Fasfa;
 
 const FormElement = $("form");
 
@@ -28,9 +29,9 @@ $('button[type="submit"]').on("click", function (e) {
   StartCalculation();
 });
 
-
 $('input[name="test-types"]').on("change", function () {
   HideAllTestScores();
+  HideElement("#testtype-none-message");
   switch (this.value) {
     case "ACT":
       ShowTestScore(ACTSelect);
@@ -41,6 +42,9 @@ $('input[name="test-types"]').on("change", function () {
     case "CLT":
       ShowTestScore(CLTSelect);
       break;
+    case "NONE":
+      ShowElement("#testtype-none-message");
+      break;
   }
   TestType = this.value;
   console.log(`Test Type: ${TestType}`);
@@ -48,6 +52,12 @@ $('input[name="test-types"]').on("change", function () {
 
 $('input[name="residency"]').on("change", function () {
   Residency = this.value;
+  ShowSpeedMessage();
+});
+
+$('input[name="visiting"]').on("change", function () {
+  Visiting = this.value;
+  ShowVisitMessage();
 });
 
 $('input[name="staying-on-campus"]').on("change", function () {
@@ -56,7 +66,22 @@ $('input[name="staying-on-campus"]').on("change", function () {
   } else {
     OnCampus = false;
   }
+  ShowSpeedMessage();
 });
+
+$('input[name="fasfa"]').on("change", function () {
+  Fasfa = this.value;
+  ShowFasfaMessage();
+});
+
+function ShowFasfaMessage() {
+  HideElement("#fasfa-message");
+  if (Fasfa == undefined) return;
+
+  if (Fasfa == "no") {
+    ShowElement("#fasfa-message");
+  }
+}
 
 $('input[name="classification"]').on("change", function () {
   if (this.value == "freshman") {
@@ -68,6 +93,7 @@ $('input[name="classification"]').on("change", function () {
   } else if (this.value == "transfer") {
     Classification = "transfer";
     HideAllTestScores();
+    HideElement('#testtype-none-message')
     HideElement("#freshman-gpa-scores");
     ShowElement("#transfer-gpa-scores");
     HideElement("#test-types");
@@ -89,15 +115,19 @@ function ShowTestScore(TestType) {
 function reset() {
   RemoveErrorBoxes();
   HideElement("#error-message");
-  HideElement("#visit-message");
-  HideElement("#speed-message");
-  HideElement('#fasfa-message');
-  HideElement("#testtype-none-message")
-  $("#other-scholarship-opportunities").parent().removeClass("hide");
+  HideElement("#scholarship-details-div");
+  HideElement("#other-scholarship-div");
   $("#other-scholarship-opportunities").empty();
   $("#scholarship-details").empty();
   $("#total").html("<h3>$0</h3>");
   $("#title").html("<h4>TOTAL SCHOLARSHIPS ANNUALLY</h4>");
+}
+
+function HideAllMessages() {
+  HideElement("#visit-message");
+  HideElement("#speed-message");
+  HideElement("#fasfa-message");
+  HideElement("#testtype-none-message");
 }
 
 function StartCalculation() {
@@ -109,28 +139,34 @@ function StartCalculation() {
   reset();
 
   if (validateForm(TestScore, GPA)) {
-const speed = CheckForSpeedScholarship();
-	if (speed) {
-		$("#scholarship-details").empty();
-		AddToList(
-		  "#scholarship-details",
-		  "<a href='https://www.mc.edu/speed'>Speed Scholarship</a>"
-		);
-		$("#total").html("<h3>100%</h3>");
-		$("#title").html("<h4>FULL TUITION SCHOLARSHIP</h4>");
-		$("#other-scholarship-opportunities").parent().addClass("hide");
-		return null;
-	  }
+    ShowElement("#scholarship-details-div")
+    const speed = CheckForSpeedScholarship();
+    if (speed) {
+      $("#scholarship-details").empty();
+      AddToList(
+        "#scholarship-details",
+        "<a href='https://www.mc.edu/speed'>Speed Scholarship</a>"
+      );
+      $("#total").html("<h3>100%</h3>");
+      $("#title").html("<h4>FULL TUITION SCHOLARSHIP</h4>");
+      //$("#other-scholarship-div").parent().addClass("hide");
+      HideAllMessages();
+      return;
+    }
 
+    const NoTestSubmitted = CheckForNoTestScoreSubmittion();
 
-	const NoTestSubmitted = CheckForNoTestScoreSubmittion();
-
-	if(NoTestSubmitted){
-		Scholarship = {"amount": OppurtunityGrant["freshman_gpas"][5][(OnCampus == "yes" ? "oncampus" : "offcampus")],"name": OppurtunityGrant.name};
-	}
-	else{
-		Scholarship = CalculateScholarship(TestScore, GPA);
-	}
+    if (NoTestSubmitted && Classification == "freshman") {
+      Scholarship = {
+        amount:
+          OppurtunityGrant["freshman_gpas"][5][
+            OnCampus == "yes" ? "oncampus" : "offcampus"
+          ],
+        name: OppurtunityGrant.name,
+      };
+    } else {
+      Scholarship = CalculateScholarship(TestScore, GPA);
+    }
 
     AddToList(
       "#scholarship-details",
@@ -141,26 +177,22 @@ const speed = CheckForSpeedScholarship();
     amount = amount.replace(",", "");
     total += Number(amount);
 
-    
     const visit = CheckForVisitScholarship();
-	const fasfa = CheckForFasfa();
+    const fasfa = CheckForFasfa();
 
     if (visit) {
       AddToList(
         "#scholarship-details",
-        "$1,250 Visit Scholarship <a href='https://www.mc.edu/visit/schedule-your-visit'>(Schedule it now)</a>"
+        "$1,250 Visit Scholarship: <a href='https://www.mc.edu/visit/schedule-your-visit'>Schedule it now</a>"
       );
       total += 1250;
     }
 
-	if(fasfa){
-		AddToList(
-            "#scholarship-details",
-            "$1,250 Sending Fasfa"
-        );
+    if (fasfa) {
+      AddToList("#scholarship-details", "$1,250 Sending Fasfa");
 
-		total += 1250;
-	}
+      total += 1250;
+    }
 
     console.log(total);
 
@@ -168,29 +200,24 @@ const speed = CheckForSpeedScholarship();
       `<h3>$${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h3>`
     );
 
-	//Other Scholarship Opportunities
-	if(CheckForTransferCompeition(GPA)){
-		AddToList(
-			"#other-scholarship-opportunities",
-			"You qualify to participate in our <a href='https://www.mc.edu/admissions/undergraduate/events/transfer'>Transfer Competition</a> with scholarships worth an additional $500 to $10,000 per year!"
-		  );
-	}
-
-	if(CheckForTrusteeScholarship(Scholarship)){
-		console.log("Trustee Scholarship");
-		AddToList(
-			"#other-scholarship-opportunities",
-			"You qualify for our most <a href='https://www.mc.edu/admissions/undergraduate/events/selectscholars'>prestigious competition</a> that offers up to full-tuition scholarships!"
-		  );
+    //Other Scholarship Opportunities
+    if (CheckForTransferCompeition(GPA)) {
+      console.log("here2");
+      ShowElement("#other-scholarship-div");
+      AddToList(
+        "#other-scholarship-opportunities",
+        "You qualify to participate in our <a href='https://www.mc.edu/admissions/undergraduate/events/transfer'>Transfer Competition</a> with scholarships worth an additional $500 to $10,000 per year!"
+      );
     }
 
-	if(visit){
-		AddToList(
-            "#other-scholarship-opportunities",
-			"Schedule your <a href='https://www.mc.edu/visit/'>visit</a> now to qualify for the Visit scholarship"
-		);
-	}
-	
+    if (CheckForTrusteeScholarship(Scholarship)) {
+      console.log("here");
+      ShowElement("#other-scholarship-div");
+      AddToList(
+        "#other-scholarship-opportunities",
+        "You qualify for our most <a href='https://www.mc.edu/admissions/undergraduate/events/selectscholars'>prestigious competition</a> that offers up to full-tuition scholarships!"
+      );
+    }
   }
 }
 
@@ -230,9 +257,7 @@ function CalculateScholarship(TestScore, GPA) {
 
 function CheckForSpeedScholarship() {
   //If residency is MS and not living on campus, show message
-  if (Residency == "resident" && OnCampus == "no") {
-    ShowElement("#speed-message");
-  } else if (Residency == "resident" && OnCampus == "yes") {
+  if (Residency == "resident" && OnCampus == "yes") {
     return true;
   }
 
@@ -248,64 +273,71 @@ function CheckForVisitScholarship() {
     return true;
   }
 
-  if (Visiting == "no") {
-    ShowElement("#visit-message");
+  return false;
+}
+
+function CheckForFasfa() {
+  const val = $("#fasfa").find('input[type="radio"]:checked').val();
+
+  if (val == "yes") {
+    return true;
   }
 
   return false;
 }
 
-function CheckForFasfa() {
-	const val = $('#fasfa').find('input[type="radio"]:checked').val();
-
-	if (val == "yes") {
-        return true;
-    }
-
-	ShowElement('#fasfa-message');
-  
-	return false;
-  }
-
 function CheckForNoTestScoreSubmittion() {
   //If no test score submission, show message
-  if(TestType == "NONE"){
-	ShowElement("#testtype-none-message");
-	return true;
+  if (TestType == "NONE") {
+    return true;
   }
 
   return false;
 }
 
 function CheckForTransferCompeition(GPA) {
-	//if transfer student and gpa is >= 3.00 and not a resident of MS
-
-	if(Classification == "transfer" && GPA != "2.00-2.49" && GPA != "2.50-2.99" && Residency == "non-resident"){
-		return true;
-	}
-
-	return false;
+  //if transfer student and gpa is >= 3.00 and not a resident of MS
+  console.log("Oncampus", OnCampus);
+  if (
+    Classification == "transfer" &&
+    OnCampus == "no" &&
+    GPA != "2.00-2.49" &&
+    GPA != "2.50-2.99"
+  ) {
+    return true;
   }
 
-  function CheckForTrusteeScholarship(Scholarship) {
-	//if freshman student and act >= 27 || sat >= 1,260 || clt >= 84 && non-resident
+  return false;
+}
+//Select Scholarship
+function CheckForTrusteeScholarship(Scholarship) {
+  //if freshman student and act >= 27 || sat >= 1,260 || clt >= 84 && non-resident
 
-	if(Classification == "freshman" && Residency == "non-resident" && (Scholarship.name == "Deans Scholarship" || Scholarship.name == "Presidential Scholarship")){
-		return true;
-	}
-
-	return false;
+  if (
+    Classification == "freshman" &&
+    (Scholarship.name == "Deans Scholarship" ||
+      Scholarship.name == "Presidential Scholarship")
+  ) {
+    return true;
   }
+
+  return false;
+}
 //Not certain on requirments
-  function CheckForDistinctionScholarship(Scholarship) {
-	//if freshman student and act >= 27 || sat >= 1,260 || clt >= 84 && non-resident
+function CheckForDistinctionScholarship(Scholarship) {
+  //if freshman student and act >= 27 || sat >= 1,260 || clt >= 84 && non-resident
 
-	if(Classification == "freshman" && Residency == "non-resident" && (Scholarship.name == "Deans Scholarship" || Scholarship.name == "Presidential Scholarship")){
-		return true;
-	}
-
-	return false;
+  if (
+    Classification == "freshman" &&
+    Residency == "non-resident" &&
+    (Scholarship.name == "Deans Scholarship" ||
+      Scholarship.name == "Presidential Scholarship")
+  ) {
+    return true;
   }
+
+  return false;
+}
 
 function validateForm(TestScore, GPA) {
   //OnCampus, Residency, TestType, gpa, act/sat/CLT score, classification
@@ -344,15 +376,15 @@ function validateForm(TestScore, GPA) {
   }
   if (ClassificationValue == undefined) {
     elements.push(ClassificationEl);
-	elements.push(GPASelect);
+    elements.push(GPASelect);
   }
 
   if (ClassificationValue == "transfer" && PTKValue == undefined) {
     elements.push($("#PTK"));
   }
 
-  if(fasfaValue == undefined) {
-	elements.push($('#fasfa'));
+  if (fasfaValue == undefined) {
+    elements.push($("#fasfa"));
   }
 
   if (elements.length > 0) {
@@ -419,8 +451,26 @@ function GetGPA() {
   return $("#transfer-gpa-scores").find("select").val();
 }
 
+function ShowSpeedMessage() {
+  HideElement("#speed-message");
+  if (Residency == undefined || OnCampus == undefined) return;
+
+  if (Residency == "resident" && !OnCampus) {
+    ShowElement("#speed-message");
+  }
+}
+
+function ShowVisitMessage() {
+  HideElement("#visit-message");
+  if (Visiting == undefined) return;
+
+  if (Visiting == "no") {
+    ShowElement("#visit-message");
+  }
+}
+
 function RemoveErrorBoxes() {
-	$('.error').removeClass('error');
+  $(".error").removeClass("error");
 }
 
 function ShowElement(el) {
@@ -567,12 +617,16 @@ function ShowOptionOne() {
   //gpa - first score
 
   $(OnCampusEl).find('input[value="yes"]').prop("checked", true);
+  $(OnCampusEl).find('input[value="yes"]').trigger("change");
 
   $(VisitingEl).find('input[value="yes"]').prop("checked", true);
+  $(VisitingEl).find('input[value="yes"]').trigger("change");
 
   $(ResidencyEl).find('input[value="resident"]').prop("checked", true);
+  $(ResidencyEl).find('input[value="resident"]').trigger("change");
 
-  $('#fasfa').find('input[value="yes"]').prop("checked",true);
+  $("#fasfa").find('input[value="yes"]').prop("checked", true);
+  $("#fasfa").find('input[value="yes"]').trigger("change");
 
   $(ClassificationEl).find('input[value="freshman"]').prop("checked", true);
   $(ClassificationEl).find('input[value="freshman"]').trigger("change");
@@ -598,10 +652,13 @@ function ShowOptionTwo() {
   //gpa - first score
 
   $(OnCampusEl).find('input[value="no"]').prop("checked", true);
+  $(OnCampusEl).find('input[value="no"]').trigger("change");
 
   $(VisitingEl).find('input[value="no"]').prop("checked", true);
+  $(VisitingEl).find('input[value="no"]').trigger("change");
 
   $(ResidencyEl).find('input[value="resident"]').prop("checked", true);
+  $(ResidencyEl).find('input[value="resident"]').trigger("change");
 
   $(ClassificationEl).find('input[value="transfer"]').prop("checked", true);
   $(ClassificationEl).find('input[value="transfer"]').trigger("change");

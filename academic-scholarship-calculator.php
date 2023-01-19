@@ -3,7 +3,7 @@
         <div class="col-sm-6">
             <span>
                 <h2 class="m-0">Scholarship Caluclator</h2>
-                <p class="scholarship-policy">Amounts shown are awarded to students pre year as long as the student
+                <p class="scholarship-policy">Amounts shown are awarded to students per year as long as the student
                     maintains a minimum of a 2.5
                     GPA.</p>
                 <div style="margin-top:-1.5rem;"><span><i>*Required</i></span></div>
@@ -29,7 +29,7 @@
                 <div class="clearfix"></div>
                 <!-- Visitation -->
                 <div class="form-question" id="visiting">
-                    <span class="fw-bold">I Will Visit MC's Camus Before Enrollment*</span>
+                    <span class="fw-bold">I Will Visit MC's Campus Before Enrollment*</span>
                     <div class="" style="margin-top:-2rem">
 
                         <input type="radio" class="btn-check" name="visiting" id="visit-yes" value="yes"
@@ -230,7 +230,7 @@
             <button style="" type="submit" class="btn btn-primary scholarship-btn">SHOW MY
                 SCHOLARSHIP</button>
             <!-- Scholarship details -->
-            <div class="">
+            <div id="scholarship-details-div" class="hide">
                 <span><b>You qualify for:</b></span>
                 <ul id="scholarship-details">
                     <!-- <li>$11,000 Deans Scholarship</li>
@@ -238,7 +238,7 @@
                 </ul>
             </div>
 
-            <div class="border-top border-1 border-dark">
+            <div id="other-scholarship-div" class="border-top border-1 border-dark hide">
                 <h3>OTHER SCHOLARSHIP OPPURTUNITIES</h3>
                 <ul id="other-scholarship-opportunities">
                     <!-- <li>Based on your test scores, you are eligible for the <a target="_" href="https://www.google.com">Select Scholars Competition</a></li>
