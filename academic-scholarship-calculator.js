@@ -186,7 +186,6 @@ function CheckForTransferCompeition(GPA) {
   //if transfer student and gpa is >= 3.00 and not a resident of MS
   if (
     Classification == "transfer" &&
-    OnCampus == "no" &&
     GPA != "2.00-2.49" &&
     GPA != "2.50-2.99"
   ) {
