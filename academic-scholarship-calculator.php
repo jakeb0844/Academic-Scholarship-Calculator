@@ -11,22 +11,6 @@
 
             </span>
             <form>
-                <!-- Residency Information -->
-                <div class="form-question" id="residency" style="margin-top:1rem">
-                    <span class="fw-bold">Residency Information*</span>
-                    <div class="" style="margin-top:-2rem">
-
-                        <input type="radio" class="btn-check" name="residency" id="ms-res" value="resident"
-                            autocomplete="off">
-                        <label class="btn grey-btn me-3" for="ms-res">MISSISSIPPI RESIDENT</label>
-
-
-                        <input type="radio" class="btn-check" name="residency" id="out-of-state" value="non-resident"
-                            autocomplete="off">
-                        <label class="btn grey-btn" for="out-of-state">OUT OF STATE</label>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
                 <!-- Visitation -->
                 <div class="form-question" id="visiting">
                     <span class="fw-bold">I Will Visit MC's Campus Before Enrollment*</span>
@@ -61,11 +45,6 @@
                             autocomplete="off">
                         <label class="btn grey-btn" for="off-campus">NO</label>
                     </div>
-                </div>
-                <div id="speed-message" class="hide">
-                    <p class="info-message">As a Mississippi resident, you may qualify for the full-tuituion <a
-                            target="_blank" href="https://www.mc.edu/speed">Speed Scholarship</a> by living on campus.
-                    </p>
                 </div>
 
                 <div class="clearfix"></div>

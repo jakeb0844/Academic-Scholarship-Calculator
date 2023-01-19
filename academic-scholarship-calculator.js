@@ -1,7 +1,6 @@
 let Scholarship,
   ScholarshipAmount,
   OnCampus,
-  Residency,
   TestType,
   Visiting,
   Classification,
@@ -10,7 +9,6 @@ let Scholarship,
 
 const OnCampusEl = $("#staying-on-campus");
 const VisitingEl = $("#visiting");
-const ResidencyEl = $("#residency");
 const ClassificationEl = $("#classification");
 const ACTSelect = $("#act-scores");
 const SATSelect = $("#sat-scores");
@@ -29,14 +27,6 @@ function StartCalculation() {
   if (validateForm(TestScore, GPA)) {
     //Shows the You qualify for ul
     ShowElement("#scholarship-details-div");
-
-    const speed = CheckForSpeedScholarship();
-
-    //Speed Scholarship, show message and breaks
-    if (speed) {
-      ShowSpeedScholarshipDetails();
-      return;
-    }
 
     //Get the correct Scholarship
     Scholarship = GetScholarship(TestScore, GPA);
@@ -70,18 +60,6 @@ function StartCalculation() {
 
     CheckForOtherScholarshipOpportunities(GPA, Scholarship);
   }
-}
-
-function ShowSpeedScholarshipDetails() {
-  $("#scholarship-details").empty();
-  AddToList(
-    "#scholarship-details",
-    "<a href='https://www.mc.edu/speed'>Speed Scholarship</a>"
-  );
-  $("#total").html("<h3>100%</h3>");
-  $("#title").html("<h4>FULL TUITION SCHOLARSHIP</h4>");
-  //$("#other-scholarship-div").parent().addClass("hide");
-  HideAllMessages();
 }
 
 function GetScholarship(TestScore, GPA) {
@@ -176,21 +154,10 @@ function FindScholarship(TestScore, GPA) {
   }
 }
 
-function CheckForSpeedScholarship() {
-  //If residency is MS and not living on campus, show message
-  if (Residency == "resident" && OnCampus == "yes") {
-    return true;
-  }
-
-  return false;
-}
-
 function CheckForVisitScholarship() {
   //If not visiting campus, show message
 
-  if (Residency == "resident" && Visiting == "yes" && OnCampus == "no") {
-    return true;
-  } else if (Residency == "non-resident" && Visiting == "yes") {
+  if (Visiting == "yes") {
     return true;
   }
 
@@ -253,7 +220,7 @@ function validateForm() {
   //Add parent element to array then loop through and add error box
   let elements = [];
   const OnCampusValue = $("input[name=staying-on-campus]:checked").val();
-  const ResidencyValue = $("input[name=residency]:checked").val();
+  //const Value = $("input[name=]:checked").val();
   const VisitingValue = $("input[name=visiting]:checked").val();
   const GPAValue = $(GPASelect).find("select").val();
   const ClassificationValue = $("input[name=classification]:checked").val();
@@ -263,18 +230,12 @@ function validateForm() {
   if (OnCampusValue == undefined) {
     elements.push(OnCampusEl);
   }
-  if (ResidencyValue == undefined) {
-    elements.push(ResidencyEl);
-  }
   if (VisitingValue == undefined) {
     elements.push(VisitingEl);
   }
   if ($("input[name=test-types]:checked").val() == undefined) {
     elements.push($("#test-types"));
   }
-  // if (Classification == "freshman" && GPAValue == null) {
-  //   elements.push(GPASelect);
-  // }
 
   if (Classification == "transfer" && GetGPA() == null) {
     elements.push($("#transfer-gps-scores"));
@@ -292,8 +253,6 @@ function validateForm() {
   if (fasfaValue == undefined) {
     elements.push($("#fasfa"));
   }
-  
-  console.log(elements)
 
   if (elements.length > 0) {
 
@@ -326,14 +285,6 @@ function GetGPA() {
   return $("#transfer-gpa-scores").find("select").val();
 }
 
-function ShowSpeedMessage() {
-  HideElement("#speed-message");
-  if (Residency == undefined || OnCampus == undefined) return;
-
-  if (Residency == "resident" && OnCampus == "no") {
-    ShowElement("#speed-message");
-  }
-}
 
 function ShowVisitMessage() {
   HideElement("#visit-message");
@@ -400,7 +351,6 @@ function reset() {
 
 function HideAllMessages() {
   HideElement("#visit-message");
-  HideElement("#speed-message");
   HideElement("#fasfa-message");
   HideElement("#testtype-none-message");
 }
@@ -573,11 +523,6 @@ $('input[name="test-types"]').on("change", function () {
   TestType = this.value;
 });
 
-$('input[name="residency"]').on("change", function () {
-  Residency = this.value;
-  ShowSpeedMessage();
-});
-
 $('input[name="visiting"]').on("change", function () {
   Visiting = this.value;
   ShowVisitMessage();
@@ -585,8 +530,6 @@ $('input[name="visiting"]').on("change", function () {
 
 $('input[name="staying-on-campus"]').on("change", function () {
   OnCampus = this.value;
-
-  ShowSpeedMessage();
 });
 
 $('input[name="fasfa"]').on("change", function () {
