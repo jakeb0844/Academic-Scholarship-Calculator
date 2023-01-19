@@ -104,7 +104,6 @@ function CalculateScholarship(TestScore, GPA) {
   const Scholarship = FindScholarship(TestScore, GPA);
 
   if (Scholarship.name == "Phi Theta Kappa") {
-    console.log("here");
     return {
       amount: Scholarship[OnCampus == "yes" ? "oncampus" : "offcampus"],
       name: Scholarship.name,
