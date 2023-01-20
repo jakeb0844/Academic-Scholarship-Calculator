@@ -113,11 +113,19 @@ function CheckForOtherScholarshipOpportunities(GPA, Scholarship) {
     );
   }
 
-  if (CheckForTrusteeScholarship(Scholarship)) {
+    if (CheckForTrusteeScholarship(Scholarship)) {
     ShowElement("#other-scholarship-div");
     AddToList(
       "#other-scholarship-opportunities",
-      "You qualify for our most <a href='https://www.mc.edu/admissions/undergraduate/events/selectscholars'>prestigious competition</a> that offers up to full-tuition scholarships!"
+      "You qualify for our <a target='_blank' rel='noopener noreferrer' href='https://www.mc.edu/admissions/undergraduate/events/selectscholars'>Select Scholars competition</a> that offers up to full-tuition scholarships!"
+    );
+  }
+
+  if(CheckForHonorsScholarship(Scholarship)){
+    ShowElement("#other-scholarship-div");
+    AddToList(
+      "#other-scholarship-opportunities",
+      "You qualify for our most <a target='_blank' rel='noopener noreferrer' href='https://www.mc.edu/honors'>prestigious competition</a> that offers full-tuition scholarships!"
     );
   }
 }
@@ -243,9 +251,12 @@ function CheckForTrusteeScholarship(Scholarship) {
   return false;
 }
 
-function CheckForDistinctionScholarship(Scholarship) {
-  //Not certain on requirments
-  
+function CheckForHonorsScholarship(Scholarship) {
+  //if freshman student and act >= 29+ || sat >= 1330+ || clt >= 89+ 
+  if(Classification == "freshman" && Scholarship.name == "Presidential Scholarship") {
+    return true;
+  }
+  return false;
 }
 
 function validateForm() {
